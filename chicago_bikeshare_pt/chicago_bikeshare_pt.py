@@ -36,9 +36,9 @@ data_list = data_list[1:]
 # Por exemplo: sample[6] para imprimir gênero, ou sample[-2]
 sample_str = "{} - Horário de início: {}; Horário de término: {}; Duração da viagem: {}; "\
 "Estação inicial: {}; Estação final: {}; Tipo: {}; Gênero: {}; Ano de nascimento: {}"
-for i, sample in enumerate(data_list[0:20]):
-    print(sample_str.format(i+1, sample[0], sample[1], sample[2], sample[3], 
-sample[4], sample[5], sample[6], sample[7]))
+for index, sample in enumerate(data_list[0:20]):
+    print(sample_str.format(index+1, sample[0], sample[1], sample[2], sample[3], 
+    sample[4], sample[5], sample[6], sample[7]))
 
 input("Aperte Enter para continuar...")
 # TAREFA 2
@@ -206,11 +206,16 @@ input("Aperte Enter para continuar...")
 # Você não deve usar funções prontas para isso, como max() e min().
 trip_duration_list = [int(duration) for duration in column_to_list(data_list, 2)]
 trip_duration_list_ordered = sorted(trip_duration_list)
+trip_duration_size = len(trip_duration_list)
 min_trip = trip_duration_list_ordered[0]
 max_trip = trip_duration_list_ordered[-1]
-mean_trip = sum(trip_duration_list) / len(trip_duration_list)
-median_trip = trip_duration_list_ordered[len(trip_duration_list_ordered) // 2]
-
+mean_trip = sum(trip_duration_list) / trip_duration_size
+if trip_duration_size % 2 == 0:
+    index_median = trip_duration_size / 2
+    median_trip = (trip_duration_list_ordered[index_median - 1] 
+    + trip_duration_list_ordered[index_median]) / 2
+else:
+    median_trip = trip_duration_list_ordered[trip_duration_size // 2]
 print("\nTAREFA 9: Imprimindo o mínimo, máximo, média, e mediana")
 print("Min: ", min_trip, "Max: ", max_trip, "Média: ", mean_trip, "Mediana: ", median_trip)
 
@@ -225,10 +230,7 @@ input("Aperte Enter para continuar...")
 # TAREFA 10
 # Gênero é fácil porque nós temos apenas algumas opções. E quanto a start_stations? Quantas opções ele tem?
 # TODO: Verifique quantos tipos de start_stations nós temos, usando set()
-start_stations = set()
-start_stations_list = column_to_list(data_list, 3)
-for start_station in start_stations_list:
-    start_stations.add(start_station)
+start_stations = set(column_to_list(data_list, 3))
 print("\nTAREFA 10: Imprimindo as start stations:")
 print(len(start_stations))
 print(start_stations)
